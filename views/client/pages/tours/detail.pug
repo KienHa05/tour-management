@@ -1,24 +1,17 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/moment.pug
 
 block main
-  div(
-    class="alert alert-success alert-hidden"
-    alert-add-cart-susscess
-  ) Đã thêm tour vào giỏ hàng! <span close-alert>x</span>
-
   .tour-detail
     .container.my-3
       .row
         .col-6
-          .inner-images
-            div(class="swiper sliderMain")
-              div(class="swiper-wrapper")
-                each image in tourDetail.images
-                  div(class="swiper-slide")
-                    .inner-image
-                      img(src=image)
-              div(class="swiper-pagination")
+          if tourDetail.images
+            .inner-images
+              each image in tourDetail.images
+                .inner-image
+                  img(src=image)
         
         .col-6
           .inner-title #{tourDetail.title}
@@ -27,7 +20,8 @@ block main
             <i class="fa-solid fa-barcode"></i> Mã tour: #{tourDetail.code}
 
           .inner-time-start
-            <i class="fa-solid fa-calendar-days"></i> Lịch khởi hành: #{tourDetail.timeStart}
+            <i class="fa-solid fa-calendar-days"></i> Lịch khởi hành: 
+            +formatDateTime(tourDetail.timeStart)
 
           .inner-stock
             <i class="fa-solid fa-person-walking-luggage"></i> Còn lại: #{tourDetail.stock} chỗ
@@ -38,7 +32,7 @@ block main
 
           form(
             form-add-to-cart
-            tour-id=tourDetail.id
+            tour-id=`:tourId`
           )
             input(
               class="form-control mb-2"
